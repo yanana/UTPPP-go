@@ -19,3 +19,22 @@
 
 # Go workspace file
 go.work
+Out
+.svn
+obj
+bin
+BenchmarkDotNet.Artifacts
+.idea
+_ReSharper*
+*.sln.GhostDoc.xml
+*.dotCover
+*.suo
+*.user
+*.Cache
+*.cache
+*.ncrunchsolution
+*.ncrunchproject
+/packages/*/*
+/Tools/*/*
+/.vs
+*ncrunch*
