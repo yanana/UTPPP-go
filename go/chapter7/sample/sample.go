@@ -1,10 +1,19 @@
 package sample
 
+// ユーザを登録し、その登録されたユーザを管理するシステム
+
+// ビジネスルール
+// - ユーザのメールアドレスに自社ドメインが含まれている場合、
+// そのユーザの種類(Type)を「従業員(employee)」として登録し、そうでない場合は「顧客(customer)」
+// - 登録されたユーザは、従業員から顧客、顧客から、従業員に変更可
+// - メールアドレスの変更ができたら、変更を外部サービスに通知する
+
 import (
 	"fmt"
 	"strings"
 )
 
+//
 type User struct {
 	UserID int
 	Email  string
@@ -13,7 +22,7 @@ type User struct {
 
 func (u *User) ChangeEmail(userID int, newEmail string) {
 	db := Database{}
-	mb := MessageBus{}
+	mb := MessageBus{bus: bus{}}
 	data := db.GetUserByID(userID)
 	email := data[0].(string)
 	typ := data[1].(UserType)
@@ -61,7 +70,7 @@ type Database struct {
 }
 
 func (db Database) GetUserByID(userID int) []interface{} {
-	return nil
+	return []interface{}{"test@test.com", Customer}
 }
 
 func (db Database) GetUserByEmail(email string) *User {
@@ -72,7 +81,7 @@ func (db Database) SaveUser(user *User) {
 }
 
 func (db Database) GetCompany() []interface{} {
-	return nil
+	return []interface{}{"GO株式会社", 2}
 }
 
 func (db Database) SaveCompany(newNumber int) {
@@ -88,4 +97,11 @@ func (mb MessageBus) SendEmailChanedMessage(userID int, newEmail string) {
 
 type Bus interface {
 	Send(message string)
+}
+
+func (b bus) Send(message string) {
+
+}
+
+type bus struct {
 }
